@@ -4,10 +4,9 @@
 
 <head>
   <meta charset="UTF-8">
-    <title>Munlawin</title>
-</head>
-
-<style>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Munlawin</title>
+  <style>
     html {
       min-height: 100%;
       background: linear-gradient(to bottom, #DF4B4A 0%, #000000 100%) fixed;
@@ -17,27 +16,52 @@
       margin: 0;
       min-height: 100vh;
       display: flex;
+        flex-direction: column;
       justify-content: center;
       align-items: center;
+      gap: 1rem;
       background: transparent;
     }
+
+    video {
+      max-width: 100%;
+      height: auto;
+    }
   </style>
-    <video autoplay muted loop controls width="800">
-      <source src="Munlawin.mp4" type="video/mp4">
+</head>
+<body>
+  <video autoplay muted loop controls width="800">
+    <source src="Munlawin.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 
-    </video>
- 
- <audio id="bg-audio" src="Munlawin.mp3" autoplay loop></audio>
+  <button id="music-toggle" type="button">Play music</button>
+  <audio id="bg-audio" src="Munlawin.mp3" loop preload="auto"></audio>
 
-<script>
-  window.addEventListener("load", () => {
-    document.getElementById("bg-audio").play().catch(() => {});
-  });
+  <script>
+    const audio = document.getElementById("bg-audio");
+    const musicToggle = document.getElementById("music-toggle");
 
-</script>
+    musicToggle.addEventListener("click", async () => {
+      if (audio.paused) {
+        try {
+          await audio.play();
+          musicToggle.textContent = "Pause music";
+        } catch (error) {
+          musicToggle.textContent = "Could not play music — try again";
+        }
+      } else {
+        audio.pause();
+        musicToggle.textContent = "Play music";
+      }
+    });
 
+    audio.addEventListener("play", () => {
+      musicToggle.textContent = "Pause music";
+    });
+    audio.addEventListener("pause", () => {
+      musicToggle.textContent = "Play music";
+    });
+  </script>
 </body>
-
 </html>
-
-
